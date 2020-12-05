@@ -5,7 +5,9 @@ const User = require('../models/users')(models.sequelize);
 const { Op } = require('sequelize');
 const router = express.Router();
 
-router.post('/', (req, res, next) => {
+const authCheck = require('../middleware/auth');
+
+router.post('/', authCheck, (req, res, next) => {
     User.findAll({
         where: {
             id: {
@@ -38,7 +40,7 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.get('/', (req, res, next) => {
+router.get('/', authCheck, (req, res, next) => {
     const params = req.query;
     Message.findAll({
         where: {
